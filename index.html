@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff9a9e;
+            --soft-pink: #fad0c4;
+            --deep-pink: #ff6b6b;
+            --pastel-green: #a8e6cf;
+            --white: #ffffff;
+            --text-color: #5d4037;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* Fallback */
+            background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        /* Floating Hearts Background */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 2rem;
+            animation: floatBackground 15s linear infinite;
+            z-index: -1;
+            user-select: none;
+        }
+
+        @keyframes floatBackground {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Teddy Bear SVG */
+        .teddy-bear {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            color: var(--deep-pink);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px; /* Space for buttons */
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-yes {
+            background-color: var(--pastel-green);
+            color: #3d6e58;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            background-color: #8ceabb;
+            box-shadow: 0 6px 20px rgba(168, 230, 207, 0.4);
+        }
+
+        .btn-no {
+            background-color: var(--deep-pink);
+            color: white;
+            transition: all 0.1s ease; /* Faster transition for running away */
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .final-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .success-text, .final-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: #d63384;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Confetti/Hearts */
+        .confetti {
+            position: absolute;
+            font-size: 20px;
+            animation: confetti-fall 3s linear forwards;
+            top: -30px;
+            z-index: 5;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Modal Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+        }
+
+        .modal {
+            background: #fff0f5;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .overlay.show .modal {
+            transform: scale(1);
+        }
+
+        /* Envelope Animation */
+        .envelope-wrapper {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            width: 200px;
+            height: 120px;
+            background: #ff6b6b;
+            position: relative;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 70px solid #ff8787; /* Light red pocket */
+            z-index: 3;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 100px solid #e04f5f; /* Darker side folds */
+            border-top: 60px solid transparent;
+            border-bottom: 60px solid transparent;
+            left: 0;
+            z-index: 2;
+            border-radius: 0 0 0 10px;
+        }
+        
+        .envelope .right-fold {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-right: 100px solid #e04f5f;
+            border-top: 60px solid transparent;
+            border-bottom: 60px solid transparent;
+            z-index: 2;
+            border-radius: 0 0 10px 0;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-top: 70px solid #ff6b6b; /* Flap color matches envelope */
+            transform-origin: top;
+            transition: transform 0.6s 0.2s ease-in-out;
+            z-index: 4;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 0;
+            width: 160px;
+            height: 100px; /* Collapsed height */
+            background: white;
+            transition: transform 0.8s 0.8s ease-in-out, height 0.8s 0.8s ease-in-out;
+            z-index: 1; /* Starts inside */
+            padding: 10px;
+            overflow: hidden;
+            border-radius: 5px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .envelope.open .letter {
+            transform: translateY(-80px); /* Slides up */
+            height: 200px; /* Expands */
+            z-index: 5; /* Comes to front */
+        }
+
+        .letter-text {
+            font-family: 'Sacramento', cursive;
+            font-size: 1.2rem;
+            color: #333;
+            text-align: left;
+            line-height: 1.4;
+            opacity: 0; /* Hidden initially for typing effect */
+            white-space: pre-wrap;
+        }
+        
+        .letter-content {
+             /* Wrapper for text content inside letter */
+             width: 100%;
+             height: 100%;
+             overflow-y: auto;
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: #ff9a9e;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            transition: background 0.3s;
+            display: none; /* Hidden until letter is read */
+        }
+        
+        .close-btn:hover {
+            background: #ff6b6b;
+        }
+
+        /* Utility for sparkles */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle-anim 1s forwards;
+            font-size: 20px;
+        }
+        
+        @keyframes sparkle-anim {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .teddy-bear { width: 140px; height: 140px; }
+            .buttons { flex-direction: column; gap: 15px; align-items: center; }
+            .btn { width: 100%; max-width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Hearts -->
+    <div id="bg-hearts-container"></div>
+
+    <div class="container">
+        <!-- SVG Teddy Bear -->
+        <svg class="teddy-bear" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ears -->
+            <circle cx="50" cy="60" r="25" fill="#d2a679"/>
+            <circle cx="150" cy="60" r="25" fill="#d2a679"/>
+            <circle cx="50" cy="60" r="15" fill="#e6c29e"/>
+            <circle cx="150" cy="60" r="15" fill="#e6c29e"/>
+            
+            <!-- Head -->
+            <circle cx="100" cy="90" r="60" fill="#d2a679"/>
+            
+            <!-- Eyes -->
+            <circle cx="75" cy="80" r="8" fill="#333"/>
+            <circle cx="125" cy="80" r="8" fill="#333"/>
+            <circle cx="77" cy="78" r="3" fill="white" opacity="0.7"/> <!-- Shine -->
+            <circle cx="127" cy="78" r="3" fill="white" opacity="0.7"/>
+            
+            <!-- Snout -->
+            <ellipse cx="100" cy="105" rx="25" ry="20" fill="#e6c29e"/>
+            <path d="M90 100 Q100 90 110 100" fill="#3e2723" transform="translate(0, 5) scale(0.6)"/> <!-- Nose -->
+            <path d="M100 110 L100 120" stroke="#3e2723" stroke-width="2"/> <!-- Mouth line -->
+            <path d="M90 120 Q100 125 110 120" fill="none" stroke="#3e2723" stroke-width="2"/> <!-- Smile -->
+
+            <!-- Blush -->
+            <ellipse cx="65" cy="100" rx="8" ry="5" fill="#ffb7b2" opacity="0.6"/>
+            <ellipse cx="135" cy="100" rx="8" ry="5" fill="#ffb7b2" opacity="0.6"/>
+
+            <!-- Body -->
+            <ellipse cx="100" cy="160" rx="50" ry="40" fill="#d2a679"/>
+            
+            <!-- Belly -->
+            <ellipse cx="100" cy="160" rx="30" ry="25" fill="#e6c29e" opacity="0.8"/>
+
+            <!-- Arms holding flowers -->
+            <ellipse cx="60" cy="150" rx="15" ry="30" fill="#d2a679" transform="rotate(30 60 150)"/>
+            <ellipse cx="140" cy="150" rx="15" ry="30" fill="#d2a679" transform="rotate(-30 140 150)"/>
+            
+            <!-- Bouquet -->
+            <g transform="translate(100, 140)">
+                <circle cx="0" cy="0" r="10" fill="#ff6b6b"/>
+                <circle cx="-10" cy="-5" r="8" fill="#ff9a9e"/>
+                <circle cx="10" cy="-5" r="8" fill="#ff9a9e"/>
+                <circle cx="0" cy="-12" r="8" fill="#ffb7b2"/>
+                <path d="M0 10 L0 40" stroke="green" stroke-width="3"/>
+            </g>
+        </svg>
+
+        <h1 id="main-text">Baby ,<br>Would you be my Valentine ?</h1>
+
+        <div class="buttons">
+            <button id="yesBtn" class="btn btn-yes">Yes 💚</button>
+            <button id="noBtn" class="btn btn-no">No 💔</button>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="success-text">Yaaaay i knew you ' d say yes eomriiiiii 🧸💐</div>
+        </div>
+
+        <div class="final-message" id="finalMessage">
+            <div class="final-text">with all love ,<br>your boy Haithaaaaaaaaaaam 💖</div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <div class="envelope-wrapper">
+                <div class="envelope" id="envelope">
+                    <div class="right-fold"></div>
+                    <div class="flap"></div>
+                    <div class="letter">
+                        <div class="letter-content">
+                            <p class="letter-text" id="letterText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="close-btn" id="closeBtn">Close 💕</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainText = document.getElementById('main-text');
+        const buttonsContainer = document.querySelector('.buttons');
+        const successMessage = document.getElementById('successMessage');
+        const finalMessage = document.getElementById('finalMessage');
+        const overlay = document.getElementById('overlay');
+        const envelope = document.getElementById('envelope');
+        const letterText = document.getElementById('letterText');
+        const closeBtn = document.getElementById('closeBtn');
+        const bgHeartsContainer = document.getElementById('bg-hearts-container');
+
+        // Sound Context
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        // Sound Synthesis Functions
+        function playTone(freq, type, duration, startTime = 0) {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime + startTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start(audioCtx.currentTime + startTime);
+            osc.stop(audioCtx.currentTime + startTime + duration);
+        }
+
+        function playHappySound() {
+            // C Major Arpeggio
+            playTone(523.25, 'sine', 0.3, 0);   // C5
+            playTone(659.25, 'sine', 0.3, 0.1); // E5
+            playTone(783.99, 'sine', 0.3, 0.2); // G5
+            playTone(1046.50, 'sine', 0.6, 0.3); // C6
+        }
+
+        function playClickSound() {
+            playTone(800, 'triangle', 0.05);
+        }
+
+        function playPopSound() {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playPaperSound() {
+            // Simulated paper rustle using filtered noise buffer
+            const bufferSize = audioCtx.sampleRate * 0.5; // 0.5 seconds
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 1000;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        // Background Hearts
+        function createBgHearts() {
+            const symbols = ['💖', '💕', '💘', '🌸'];
+            for(let i=0; i<15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                bgHeartsContainer.appendChild(heart);
+            }
+        }
+        createBgHearts();
+
+        // "No" Button Logic
+        function moveNoBtn() {
+            // Ensure audio context is resumed on first interaction
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            
+            // Keep within bounds
+            const safeX = Math.max(20, Math.min(x, window.innerWidth - 100));
+            const safeY = Math.max(20, Math.min(y, window.innerHeight - 100));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = safeX + 'px';
+            noBtn.style.top = safeY + 'px';
+            
+            playClickSound(); // Play small sound when it moves
+        }
+
+        noBtn.addEventListener('mouseover', moveNoBtn);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNoBtn(); });
+        noBtn.addEventListener('click', moveNoBtn);
+
+        // "Yes" Button Logic
+        yesBtn.addEventListener('click', () => {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            playHappySound();
+            
+            // Hide buttons
+            buttonsContainer.style.display = 'none';
+            mainText.style.display = 'none';
+            
+            // Show success
+            successMessage.style.display = 'flex';
+            
+            // Confetti
+            createConfetti();
+            
+            // Open Modal after delay
+            setTimeout(() => {
+                openModal();
+            }, 3000);
+        });
+
+        // Confetti
+        function createConfetti() {
+            const symbols = ['💖', '💕', '💘', '🌸', '💐'];
+            for (let i = 0; i < 50; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.animationDuration = Math.random() * 2 + 2 + 's';
+                conf.style.fontSize = (Math.random() * 10 + 15) + 'px';
+                document.body.appendChild(conf);
+                
+                // Remove after animation
+                setTimeout(() => conf.remove(), 4000);
+            }
+        }
+
+        // Modal Logic
+        function openModal() {
+            overlay.style.display = 'flex';
+            // Force reflow
+            overlay.offsetHeight;
+            overlay.classList.add('show');
+            
+            setTimeout(() => {
+                // Open envelope
+                playPaperSound();
+                envelope.classList.add('open');
+                
+                // Start typing after letter slides out
+                setTimeout(() => {
+                    typeWriter();
+                }, 1500);
+            }, 500);
+        }
+
+        // Typing Effect
+        const message = "My Babe, my soulmate, and my entire world,\n\nAs Valentine’s Day comes around, everyone is busy celebrating love, but I realized I don’t need a specific day to show you how much you mean to me. To me, every single day since we started this journey in 2021 has been a day of loving you. I love you on the quiet mornings, in the middle of my busiest days, and in those late-night moments when your voice is the only thing that calms the chaos of my mind.\n\nYou are my life and my heart , and the truth is, a single day isn’t enough to hold the depth of what I feel for you. I don’t need a calendar to remind me to cherish you, because my heart chooses you every second of every hour. You’ve made love feel so soft and effortless, turning my world into a place of peace just by existing in it. Thank you for holding my heart so safely under your wings and for being the person who understands me even when I’m silent.\n\nYou are my favorite part of every day, and while the world celebrates valentines , I’ll just keep on loving you the way I always do deeply, honestly, and with everything I am. You are my forever Valentine, today and every day until my heart stops. ❤️";
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < message.length) {
+                const char = message.charAt(charIndex);
+                letterText.innerText += char;
+                letterText.style.opacity = 1;
+                charIndex++;
+                
+                // Scroll to bottom if needed
+                const content = document.querySelector('.letter-content');
+                content.scrollTop = content.scrollHeight;
+                
+                setTimeout(typeWriter, 50);
+            } else {
+                // Show close button when done
+                closeBtn.style.display = 'inline-block';
+            }
+        }
+
+        closeBtn.addEventListener('click', () => {
+            playClickSound();
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                // Switch from success message to final message
+                successMessage.style.display = 'none';
+                finalMessage.style.display = 'flex';
+                // One last burst of confetti
+                createConfetti();
+            }, 500);
+        });
+
+    </script>
+</body>
+</html>
